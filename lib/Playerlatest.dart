@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:math';
 import 'package:flame/components/animation_component.dart';
 import 'MainGameLogick.dart';
+import 'MainGameLogick.dart' as global;
 
 class Player2 {
   final MainLogick game;
@@ -25,6 +26,7 @@ class Player2 {
   bool isEndMap = false;
   bool wasFighting = false;
   Rect hitBox;
+  double boxSize = 96.0;
 
   Player2(this.game, this.width, this.height) {
     position = Offset(
@@ -42,8 +44,8 @@ class Player2 {
       textureHeight: 96.0,
     );
 
-    component.y = height / 2 - 46;
-    component.x = width / 2 - 46;
+    component.y = 200;
+    component.x = 100;
   }
 
   Future<void> onHit(bool heHit) async {
@@ -63,7 +65,7 @@ class Player2 {
         component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
             textureY: 1536, textureWidth: 96.0, textureHeight: 96.0);
       }
- 
+
       //Site POSITION RIGHT
       if (posYoyPad.dx.toInt() == 0 &&
           (cameraFrameLast.toInt() == 96 ||
@@ -95,11 +97,11 @@ class Player2 {
     c.rotate(turretAngle);
 
     // hitBox = Rect.fromLTWH(30, 20, 35, 45);
-    hitBox = Rect.fromLTWH(20, 20, 50, 50);
+    hitBox = Rect.fromLTWH(0, 0, 96, 96);
     Paint bgPaint = Paint();
     bgPaint.color = Color(0xff576574).withOpacity(0.2);
     c.drawRect(hitBox, bgPaint);
-
+    c.save();
     // c.rotate(bodyAngle);
   }
 
@@ -139,6 +141,20 @@ class Player2 {
         }
       }
 
+      for (var block in global.MainLogick.block) {
+        if (block.left + block.width >
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx &&
+            block.left <
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
+                    boxSize &&
+            block.top + block.height >
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy &&
+            block.top <
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy+
+                    boxSize) {
+          print("złaź ze mnie");
+        }
+      }
       if (bodyAngle == targetBodyAngle) {
         if (-hitBox.top >
                 (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||

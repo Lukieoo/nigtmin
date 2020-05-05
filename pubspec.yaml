@@ -50,6 +50,7 @@ flutter:
   assets:
     - assets/images/minotaur.png
     - assets/images/hit.png
+    - assets/images/hero.png
     - assets/images/bg/bq.png
     - assets/images/bg/back.jpg
     

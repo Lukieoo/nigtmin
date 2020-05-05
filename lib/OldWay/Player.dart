@@ -1,8 +1,7 @@
 import 'dart:ui';
 import 'dart:math';
 import 'package:flame/components/animation_component.dart';
-import 'package:flame/components/component.dart';
-import 'package:flame/sprite.dart';
+ 
 
 import 'Gamecontain.dart';
 
