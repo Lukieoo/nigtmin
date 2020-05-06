@@ -9,8 +9,9 @@ class Enemy {
   double width = 0;
   double height = 0;
 
+  Rect hitBox;
   Enemy() {
-    
+     hitBox = Rect.fromLTWH(257, 120+(64*(2/3)), 30, 64/3);
     componentx = AnimationComponent.sequenced(
       64.0,
       64.0,
@@ -27,9 +28,9 @@ class Enemy {
 
   void render(Canvas c) {
     
-    Rect hitBox = Rect.fromLTWH(240, 120, 64, 64);
+     
     Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff576574).withOpacity(0.2);
+    bgPaint.color = Color(0xff576574).withOpacity(0.9);
     c.drawRect(hitBox, bgPaint);
     componentx.render(c);
     c.restore();

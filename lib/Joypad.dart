@@ -26,7 +26,7 @@ class JoypadState extends State {
  
     onChange(newDelta);
     setState(() {
-      print(newDelta);
+     // print(newDelta);
       delta = newDelta;
     
     });

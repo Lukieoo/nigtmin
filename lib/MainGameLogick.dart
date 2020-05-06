@@ -14,7 +14,7 @@ class MainLogick extends Game {
 
   Player2 player;
   Enemy enemy;
-  static List<Colider> block=new List();
+  static List<Colider> block = new List();
 
   Future<void> onLeftJoypadChange(Offset offset) async {
     //Get Offset by pad
@@ -31,7 +31,7 @@ class MainLogick extends Game {
   //Game Hit
   Future<void> onHit(bool heHit) async {
     player.onHit(heHit);
-    print("hit");
+   // print("hit");
   }
 
   MainLogick() {
@@ -44,9 +44,14 @@ class MainLogick extends Game {
     if (screenSize != null) {
       background.render(canvas);
 
-      enemy.render(canvas);
+      if (player.position.dy > enemy.componentx.y) {
+        enemy.render(canvas);
+        player.render(canvas);
+      } else {
+        player.render(canvas);
+        enemy.render(canvas);
+      }
 
-      player.render(canvas);
       canvas.restore();
     }
   }
@@ -68,10 +73,11 @@ class MainLogick extends Game {
 
     block.add(Colider(
         name: "enemy",
-        left: enemy.componentx.x,
-        top: enemy.componentx.y,
-        height: 64,
-        width: 64));
-
+        left: enemy.hitBox.left,
+        top: enemy.hitBox.top,
+        height: enemy.hitBox.height,
+        width: enemy.hitBox.width));
+       // print("enemy ${enemy.hitBox.left}   ${enemy.hitBox.top}  ${enemy.hitBox.height}  ${enemy.hitBox.width}");
   }
+   
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:math';
 import 'package:flame/components/animation_component.dart';
+import 'package:flutter/material.dart';
 import 'MainGameLogick.dart';
 import 'MainGameLogick.dart' as global;
 
@@ -27,6 +28,8 @@ class Player2 {
   bool wasFighting = false;
   Rect hitBox;
   double boxSize = 96.0;
+  bool blockColiser = false;
+  String tekst="debug";
 
   Player2(this.game, this.width, this.height) {
     position = Offset(
@@ -97,10 +100,24 @@ class Player2 {
     c.rotate(turretAngle);
 
     // hitBox = Rect.fromLTWH(30, 20, 35, 45);
-    hitBox = Rect.fromLTWH(0, 0, 96, 96);
+    hitBox = Rect.fromLTWH(32, 96 * 1 / 3, 30, 96 / 4);
+
     Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff576574).withOpacity(0.2);
+    bgPaint.color = Color(0xff576574).withOpacity(0.9);
+
+    //TEXT
+        TextSpan span =
+            new TextSpan(style: new TextStyle(color: Colors.blue[800]), text: tekst);
+        TextPainter tp = new TextPainter(
+            text: span,
+            textAlign: TextAlign.left,
+            textDirection: TextDirection.ltr);
+
+        tp.layout();
+        tp.paint(c, new Offset(5.0, 5.0));
+    //
     c.drawRect(hitBox, bgPaint);
+    c.restore();
     c.save();
     // c.rotate(bodyAngle);
   }
@@ -141,166 +158,209 @@ class Player2 {
         }
       }
 
+      ///OLD on player max img
+      /*
+      if (block.left + block.width >
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx &&
+          block.left <
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
+                  boxSize &&
+          block.top + block.height >
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy &&
+          block.top <
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
+                  boxSize) {
+        print("złaź ze mnie");
+      }
+       &&
+          block.left <
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx+hitBox.left 
+                    &&
+          block.top + block.height >
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy-hitBox.top &&
+          block.top <
+              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +hitBox.height
+                  
+      */
+      ///
+
       for (var block in global.MainLogick.block) {
         if (block.left + block.width >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx &&
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
+                    hitBox.left &&
             block.left <
                 (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
-                    boxSize &&
+                    hitBox.left +
+                    hitBox.width &&
             block.top + block.height >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy &&
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
+                    hitBox.top &&
             block.top <
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy+
-                    boxSize) {
-          print("złaź ze mnie");
-        }
-      }
-      if (bodyAngle == targetBodyAngle) {
-        if (-hitBox.top >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
-            height - hitBox.bottom <
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
-            -hitBox.left >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx ||
-            width - hitBox.right <
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx) {
-          //Moving hibox hit
-
-          if (-hitBox.left >
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dx &&
-                  -hitBox.top >
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dy ||
-              -hitBox.left >
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dx &&
-                  height - hitBox.bottom <
-                      (position +
-                              Offset.fromDirection(bodyAngle, 150 * t))
-                          .dy ||
-              width - hitBox.right <
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dx &&
-                  -hitBox.top >
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dy ||
-              width - hitBox.right <
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dx &&
-                  height - hitBox.bottom <
-                      (position + Offset.fromDirection(bodyAngle, 150 * t))
-                          .dy) {
-            print("DZIEJE SIE");
+                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
+                    hitBox.height +
+                    hitBox.top) {
+          blockColiser = true;
+        tekst="blockColiser ${(blockColiser)?true:false}";
+          ///COLISER BOX
+          if (bodyAngle == targetBodyAngle) {
+            position = position +
+                Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
           } else {
-            if (-hitBox.top >
-                    (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
-                height - hitBox.bottom <
-                    (position + Offset.fromDirection(bodyAngle, 150 * t)).dy) {
+            if (targetBodyAngle == null) {
+            } else {
               position = position +
-                  Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
-            }
-            if (-hitBox.left >
-                    (position + Offset.fromDirection(bodyAngle, 150 * t)).dx ||
-                width - hitBox.right <
-                    (position + Offset.fromDirection(bodyAngle, 150 * t)).dx) {
-              position = position +
-                  Offset(0, Offset.fromDirection(bodyAngle, 150 * t).dy);
+                  Offset(0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
             }
           }
-
-          //END Moving hibox hit
-
         } else {
-          Offset.fromDirection(
-            bodyAngle,
-          );
-          position = position + Offset.fromDirection(bodyAngle, 150 * t);
+          blockColiser = false;
+          tekst="blockColiser ${(blockColiser)?true:false}";
         }
-
-        // print("bodyAngle $targetBodyAngle");
-      } else {
-        if (targetBodyAngle == null) {
-        } else {
+      }
+      if (!blockColiser) {
+        if (bodyAngle == targetBodyAngle) {
           if (-hitBox.top >
-                  (position + Offset.fromDirection(targetBodyAngle, 150 * t))
-                      .dy ||
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
               height - hitBox.bottom <
-                  (position + Offset.fromDirection(targetBodyAngle, 150 * t))
-                      .dy ||
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
               -hitBox.left >
-                  (position + Offset.fromDirection(targetBodyAngle, 150 * t))
-                      .dx ||
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dx ||
               width - hitBox.right <
-                  (position + Offset.fromDirection(targetBodyAngle, 150 * t))
-                      .dx) {
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dx) {
             //Moving hibox hit
 
             if (-hitBox.left >
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dx &&
                     -hitBox.top >
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dy ||
                 -hitBox.left >
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dx &&
                     height - hitBox.bottom <
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dy ||
                 width - hitBox.right <
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dx &&
                     -hitBox.top >
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dy ||
                 width - hitBox.right <
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dx &&
                     height - hitBox.bottom <
-                        (position +
-                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                        (position + Offset.fromDirection(bodyAngle, 150 * t))
                             .dy) {
-              print("DZIEJE SIE");
+              // print("DZIEJE SIE");
             } else {
               if (-hitBox.top >
-                      (position +
-                              Offset.fromDirection(targetBodyAngle, 150 * t))
+                      (position + Offset.fromDirection(bodyAngle, 150 * t))
                           .dy ||
                   height - hitBox.bottom <
-                      (position +
-                              Offset.fromDirection(targetBodyAngle, 150 * t))
+                      (position + Offset.fromDirection(bodyAngle, 150 * t))
                           .dy) {
                 position = position +
-                    Offset(
-                        Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
+                    Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
               }
               if (-hitBox.left >
-                      (position +
-                              Offset.fromDirection(targetBodyAngle, 150 * t))
+                      (position + Offset.fromDirection(bodyAngle, 150 * t))
                           .dx ||
                   width - hitBox.right <
-                      (position +
-                              Offset.fromDirection(targetBodyAngle, 150 * t))
+                      (position + Offset.fromDirection(bodyAngle, 150 * t))
                           .dx) {
                 position = position +
-                    Offset(
-                        0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
+                    Offset(0, Offset.fromDirection(bodyAngle, 150 * t).dy);
               }
             }
 
             //END Moving hibox hit
 
           } else {
-            position =
-                position + Offset.fromDirection(targetBodyAngle, 150 * t);
+            Offset.fromDirection(
+              bodyAngle,
+            );
+            position = position + Offset.fromDirection(bodyAngle, 150 * t);
+          }
+
+          // print("bodyAngle $targetBodyAngle");
+        } else {
+          if (targetBodyAngle == null) {
+          } else {
+            if (-hitBox.top >
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                        .dy ||
+                height - hitBox.bottom <
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                        .dy ||
+                -hitBox.left >
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                        .dx ||
+                width - hitBox.right <
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                        .dx) {
+              //Moving hibox hit
+
+              if (-hitBox.left >
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dx &&
+                      -hitBox.top >
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dy ||
+                  -hitBox.left >
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dx &&
+                      height - hitBox.bottom <
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dy ||
+                  width - hitBox.right <
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dx &&
+                      -hitBox.top >
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dy ||
+                  width - hitBox.right <
+                          (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dx &&
+                      height - hitBox.bottom <
+                          (position +
+                                  Offset.fromDirection(targetBodyAngle, 150 * t))
+                              .dy) {
+                // print("DZIEJE SIE");
+              } else {
+                if (-hitBox.top >
+                        (position +
+                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dy ||
+                    height - hitBox.bottom <
+                        (position +
+                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dy) {
+                  position = position +
+                      Offset(
+                          Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
+                }
+                if (-hitBox.left >
+                        (position +
+                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dx ||
+                    width - hitBox.right <
+                        (position +
+                                Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dx) {
+                  position = position +
+                      Offset(
+                          0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
+                }
+              }
+
+              //END Moving hibox hit
+
+            } else {
+              position =
+                  position + Offset.fromDirection(targetBodyAngle, 150 * t);
+            }
           }
         }
       }
