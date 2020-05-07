@@ -29,7 +29,7 @@ class Player2 {
   Rect hitBox;
   double boxSize = 96.0;
   bool blockColiser = false;
-  String tekst="debug";
+  String tekst = "debug";
 
   Player2(this.game, this.width, this.height) {
     position = Offset(
@@ -106,15 +106,15 @@ class Player2 {
     bgPaint.color = Color(0xff576574).withOpacity(0.9);
 
     //TEXT
-        TextSpan span =
-            new TextSpan(style: new TextStyle(color: Colors.blue[800]), text: tekst);
-        TextPainter tp = new TextPainter(
-            text: span,
-            textAlign: TextAlign.left,
-            textDirection: TextDirection.ltr);
+    TextSpan span = new TextSpan(
+        style: new TextStyle(color: Colors.blue[800]), text: tekst);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr);
 
-        tp.layout();
-        tp.paint(c, new Offset(5.0, 5.0));
+    tp.layout();
+    tp.paint(c, new Offset(5.0, 5.0));
     //
     c.drawRect(hitBox, bgPaint);
     c.restore();
@@ -157,67 +157,113 @@ class Player2 {
           }
         }
       }
-
-      ///OLD on player max img
-      /*
-      if (block.left + block.width >
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx &&
-          block.left <
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
-                  boxSize &&
-          block.top + block.height >
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy &&
-          block.top <
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
-                  boxSize) {
-        print("złaź ze mnie");
-      }
-       &&
-          block.left <
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dx+hitBox.left 
-                    &&
-          block.top + block.height >
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy-hitBox.top &&
-          block.top <
-              (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +hitBox.height
-                  
-      */
-      ///
-
+blockColiser = false;
       for (var block in global.MainLogick.block) {
-        if (block.left + block.width >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
-                    hitBox.left &&
-            block.left <
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
-                    hitBox.left +
-                    hitBox.width &&
-            block.top + block.height >
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
-                    hitBox.top &&
-            block.top <
-                (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
-                    hitBox.height +
-                    hitBox.top) {
-          blockColiser = true;
-        tekst="blockColiser ${(blockColiser)?true:false}";
-          ///COLISER BOX
-          if (bodyAngle == targetBodyAngle) {
+        
+
+        ///COLISER BOX
+
+        if (bodyAngle == targetBodyAngle) {
+          if (block.left + block.width >
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
+                      hitBox.left &&
+              block.left <
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
+                      hitBox.left +
+                      hitBox.width &&
+              block.top + block.height >
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
+                      hitBox.top &&
+              block.top <
+                  (position + Offset.fromDirection(bodyAngle, 150 * t)).dy +
+                      hitBox.height +
+                      hitBox.top) {
+            blockColiser = true;
+            tekst = "speed B ${block.left}";
             position = position +
                 Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
-          } else {
-            if (targetBodyAngle == null) {
-            } else {
-              position = position +
-                  Offset(0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
-            }
           }
+          // if (blockColiser) {
+          //   if (block.left + block.width >
+          //           (position + Offset.fromDirection(bodyAngle, 150 * t))
+          //                   .dx +
+          //               hitBox.left ||
+          //       block.left <
+          //           (position + Offset.fromDirection(bodyAngle, 150 * t))
+          //                   .dx +
+          //               hitBox.left +
+          //               hitBox.width) {
+          //     position = position +
+          //         Offset(0, Offset.fromDirection(bodyAngle, 150 * t).dy);
+          //   } else {
+          //     position = position +
+          //         Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
+          //   }
+          // }
         } else {
-          blockColiser = false;
-          tekst="blockColiser ${(blockColiser)?true:false}";
+          if (targetBodyAngle == null) {
+          } else {
+            ///TAG start
+            if (block.left + block.width >
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dx +
+                        hitBox.left &&
+                block.left <
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dx +
+                        hitBox.left +
+                        hitBox.width &&
+                block.top + block.height >
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dy +
+                        hitBox.top &&
+                block.top <
+                    (position + Offset.fromDirection(targetBodyAngle, 150 * t))
+                            .dy +
+                        hitBox.height +
+                        hitBox.top) {
+              blockColiser = true;
+
+              tekst = "speed T ${block.left}";
+              position = position +
+                  Offset(Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
+            }
+            // if (blockColiser) {
+            //   if (block.left + block.width >
+            //           (position +
+            //                       Offset.fromDirection(
+            //                           targetBodyAngle, 150 * t))
+            //                   .dx +
+            //               hitBox.left ||
+            //       block.left <
+            //           (position +
+            //                       Offset.fromDirection(
+            //                           targetBodyAngle, 150 * t))
+            //                   .dx +
+            //               hitBox.left +
+            //               hitBox.width) {
+            //     position = position +
+            //         Offset(
+            //             0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
+            //   } else {
+            //     position = position +
+            //         Offset(
+            //             Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
+            //   }
+            // }
+
+            ///TAG end
+
+          }
         }
+
+        ///COLISER BOX
+
       }
-      if (!blockColiser) {
+      if (blockColiser) {
+      } else {
+        //  tekst = "else ";
+
         if (bodyAngle == targetBodyAngle) {
           if (-hitBox.top >
                   (position + Offset.fromDirection(bodyAngle, 150 * t)).dy ||
