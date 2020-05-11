@@ -59,6 +59,7 @@ flutter:
     - assets/tiles/nigtmin.tmx
     - assets/images/forest.png
     - assets/images/Dungeon_Tileset.png
+    - assets/images/Bat_Sprite_Sheet.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

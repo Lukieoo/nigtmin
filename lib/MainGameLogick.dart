@@ -50,17 +50,17 @@ class MainLogick extends Game {
         
      // background.render(canvas);
 
-      if (player.position.dy > enemy[0].componentx.y) {
+      //if (player.position.dy > enemy[0].componentx.y) {
         enemy[2].render(canvas);
         enemy[1].render(canvas);
         enemy[0].render(canvas);
         player.render(canvas);
-      } else {
-        player.render(canvas);
-        enemy[0].render(canvas);
-        enemy[1].render(canvas);
-        enemy[2].render(canvas);
-      }
+      // } else {
+      //   player.render(canvas);
+      //   enemy[0].render(canvas);
+      //   enemy[1].render(canvas);
+      //   enemy[2].render(canvas);
+      // }
   
       canvas.restore();
     }
@@ -72,7 +72,7 @@ class MainLogick extends Game {
       enemy[0].update(t);
       enemy[1].update(t);
       enemy[2].update(t);
-    
+     
       
     }
   }
@@ -89,25 +89,25 @@ class MainLogick extends Game {
     enemy.add(Enemy(400, 160));
     enemy.add(Enemy(450, 120));
  
-    block.add(Colider(
-        name: "enemy1",
-        left: enemy[0].hitBox.left,
-        top: enemy[0].hitBox.top,
-        height: enemy[0].hitBox.height,
-        width: enemy[0].hitBox.width));
+    // block.add(Colider(
+    //     name: "enemy1",
+    //     left: enemy[0].hitBox.left,
+    //     top: enemy[0].hitBox.top,
+    //     height: enemy[0].hitBox.height,
+    //     width: enemy[0].hitBox.width));
    
-    block.add(Colider(
-        name: "enemy",
-        left: enemy[1].hitBox.left,
-        top: enemy[1].hitBox.top,
-        height: enemy[1].hitBox.height,
-        width: enemy[1].hitBox.width));
+    // block.add(Colider(
+    //     name: "enemy",
+    //     left: enemy[1].hitBox.left,
+    //     top: enemy[1].hitBox.top,
+    //     height: enemy[1].hitBox.height,
+    //     width: enemy[1].hitBox.width));
 
-    block.add(Colider(
-        name: "enemy2",
-        left: enemy[2].hitBox.left,
-        top: enemy[2].hitBox.top,
-        height: enemy[2].hitBox.height,
-        width: enemy[2].hitBox.width));
+    // block.add(Colider(
+    //     name: "enemy2",
+    //     left: enemy[2].hitBox.left,
+    //     top: enemy[2].hitBox.top,
+    //     height: enemy[2].hitBox.height,
+    //     width: enemy[2].hitBox.width));
   }
 }

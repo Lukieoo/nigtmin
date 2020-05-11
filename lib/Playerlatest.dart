@@ -7,7 +7,7 @@ import 'MainGameLogick.dart' as global;
 
 class Player2 {
   final MainLogick game;
-  Offset position = Offset.zero;
+  static Offset position = Offset.zero;
   double bodyAngle = 0;
   double turretAngle = 0;
   double targetBodyAngle;
