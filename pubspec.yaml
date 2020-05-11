@@ -24,8 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   flame: ^0.19.1
-
-
+  box2d_flame: ^0.4.5
+  tiled: ^0.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -53,7 +53,12 @@ flutter:
     - assets/images/hero.png
     - assets/images/bg/bq.png
     - assets/images/bg/back.jpg
-    
+    - assets/images/bg/back.jpg
+    - assets/tiles/mapagry.tmx
+    - assets/tiles/arena.tmx
+    - assets/tiles/nigtmin.tmx
+    - assets/images/forest.png
+    - assets/images/Dungeon_Tileset.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

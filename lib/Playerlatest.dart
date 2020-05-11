@@ -99,23 +99,23 @@ class Player2 {
     component.render(c);
     c.rotate(turretAngle);
 
-    // hitBox = Rect.fromLTWH(30, 20, 35, 45);
+    hitBox = Rect.fromLTWH(30, 20, 35, 45);
     hitBox = Rect.fromLTWH(32, 96 * 1 / 3, 30, 96 / 4);
 
     Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff576574).withOpacity(0.9);
+    bgPaint.color = Color(0xff576574).withOpacity(0.0);
 
     //TEXT
-    TextSpan span = new TextSpan(
-        style: new TextStyle(color: Colors.blue[800]), text: tekst);
-    TextPainter tp = new TextPainter(
-        text: span,
-        textAlign: TextAlign.left,
-        textDirection: TextDirection.ltr);
+    // TextSpan span = new TextSpan(
+    //     style: new TextStyle(color: Colors.blue[800]), text: tekst);
+    // TextPainter tp = new TextPainter(
+    //     text: span,
+    //     textAlign: TextAlign.left,
+    //     textDirection: TextDirection.ltr);
 
-    tp.layout();
-    tp.paint(c, new Offset(5.0, 5.0));
-    //
+    // tp.layout();
+    // tp.paint(c, new Offset(5.0, 5.0));
+    // //
     c.drawRect(hitBox, bgPaint);
     c.restore();
     c.save();
@@ -164,6 +164,8 @@ blockColiser = false;
         ///COLISER BOX
 
         if (bodyAngle == targetBodyAngle) {
+
+          
           if (block.left + block.width >
                   (position + Offset.fromDirection(bodyAngle, 150 * t)).dx +
                       hitBox.left &&
@@ -183,23 +185,7 @@ blockColiser = false;
             position = position +
                 Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
           }
-          // if (blockColiser) {
-          //   if (block.left + block.width >
-          //           (position + Offset.fromDirection(bodyAngle, 150 * t))
-          //                   .dx +
-          //               hitBox.left ||
-          //       block.left <
-          //           (position + Offset.fromDirection(bodyAngle, 150 * t))
-          //                   .dx +
-          //               hitBox.left +
-          //               hitBox.width) {
-          //     position = position +
-          //         Offset(0, Offset.fromDirection(bodyAngle, 150 * t).dy);
-          //   } else {
-          //     position = position +
-          //         Offset(Offset.fromDirection(bodyAngle, 150 * t).dx, 0);
-          //   }
-          // }
+       
         } else {
           if (targetBodyAngle == null) {
           } else {
@@ -228,37 +214,11 @@ blockColiser = false;
               position = position +
                   Offset(Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
             }
-            // if (blockColiser) {
-            //   if (block.left + block.width >
-            //           (position +
-            //                       Offset.fromDirection(
-            //                           targetBodyAngle, 150 * t))
-            //                   .dx +
-            //               hitBox.left ||
-            //       block.left <
-            //           (position +
-            //                       Offset.fromDirection(
-            //                           targetBodyAngle, 150 * t))
-            //                   .dx +
-            //               hitBox.left +
-            //               hitBox.width) {
-            //     position = position +
-            //         Offset(
-            //             0, Offset.fromDirection(targetBodyAngle, 150 * t).dy);
-            //   } else {
-            //     position = position +
-            //         Offset(
-            //             Offset.fromDirection(targetBodyAngle, 150 * t).dx, 0);
-            //   }
-            // }
-
-            ///TAG end
-
+          
           }
         }
 
-        ///COLISER BOX
-
+        
       }
       if (blockColiser) {
       } else {

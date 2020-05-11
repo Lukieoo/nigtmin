@@ -31,21 +31,21 @@ class Enemy {
   }
 
   void render(Canvas c) {
-    Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff576574).withOpacity(0.9);
-    c.drawRect(hitBox, bgPaint);
+    // Paint bgPaint = Paint();
+    // bgPaint.color = Color(0xff576574).withOpacity(0.9);
+    // c.drawRect(hitBox, bgPaint);
     componentx.render(c);
     //TEXT
-    TextSpan span =
-        new TextSpan(style: new TextStyle(color: Colors.black), text: tekst);
-    TextPainter tp = new TextPainter(
-        text: span,
-        textWidthBasis: TextWidthBasis.longestLine,
-        textAlign: TextAlign.left,
-        textDirection: TextDirection.ltr);
+    // TextSpan span =
+    //     new TextSpan(style: new TextStyle(color: Colors.black), text: tekst);
+    // TextPainter tp = new TextPainter(
+    //     text: span,
+    //     textWidthBasis: TextWidthBasis.longestLine,
+    //     textAlign: TextAlign.left,
+    //     textDirection: TextDirection.ltr);
 
-    tp.layout();
-    tp.paint(c, new Offset(0.0, -20.0));
+    // tp.layout();
+    // tp.paint(c, new Offset(0.0, -20.0));
     //
     c.restore();
     c.save();

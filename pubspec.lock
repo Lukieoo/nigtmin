@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "1.0.5"
   box2d_flame:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: box2d_flame
       url: "https://pub.dartlang.org"
@@ -281,7 +281,7 @@ packages:
     source: hosted
     version: "0.2.11"
   tiled:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: tiled
       url: "https://pub.dartlang.org"
