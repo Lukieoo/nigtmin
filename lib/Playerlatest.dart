@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:math';
 import 'package:flame/components/animation_component.dart';
 import 'package:flutter/material.dart';
+import 'package:nigtmin/enemy.dart';
 import 'MainGameLogick.dart';
 import 'MainGameLogick.dart' as global;
 
@@ -29,7 +30,7 @@ class Player2 {
   Rect hitBox;
   double boxSize = 96.0;
   bool blockColiser = false;
-  String tekst = "debug";
+  static String tekst = "100";
 
   Player2(this.game, this.width, this.height) {
     position = Offset(
@@ -40,7 +41,7 @@ class Player2 {
     component = AnimationComponent.sequenced(
       96.0,
       96.0,
-      'minotaur.png',
+      'Minotaur.png',
       5,
       textureY: 0,
       textureWidth: 96.0,
@@ -52,20 +53,21 @@ class Player2 {
   }
 
   Future<void> onHit(bool heHit) async {
+    
     if (heHit) {
       //RIGHT Site
       if (posYoyPad.dx.toInt() > 0) {
-        component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
+        component = AnimationComponent.sequenced(96.0, 96.0, 'Minotaur.png', 9,
             textureY: 576, textureWidth: 96.0, textureHeight: 96.0);
       }
       //LEFT Site
       else if (posYoyPad.dx.toInt() < 0) {
-        component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
+        component = AnimationComponent.sequenced(96.0, 96.0, 'Minotaur.png', 9,
             textureY: 1536, textureWidth: 96.0, textureHeight: 96.0);
       }
       //WHEN UP in 90
       if (posYoyPad.dx.toInt() == 0 && posYoyPad.dy.toInt() != 0) {
-        component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
+        component = AnimationComponent.sequenced(96.0, 96.0, 'Minotaur.png', 9,
             textureY: 1536, textureWidth: 96.0, textureHeight: 96.0);
       }
 
@@ -74,14 +76,14 @@ class Player2 {
           (cameraFrameLast.toInt() == 96 ||
               cameraFrameLast.toInt() == 480 ||
               cameraFrameLast.toInt() == 0)) {
-        component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
+        component = AnimationComponent.sequenced(96.0, 96.0, 'Minotaur.png', 9,
             textureY: 576, textureWidth: 96.0, textureHeight: 96.0);
 
         //Site POSITION LEFT
       } else if (posYoyPad.dx.toInt() == 0 &&
           (cameraFrameLast.toInt() == 1056 ||
               cameraFrameLast.toInt() == 1440)) {
-        component = AnimationComponent.sequenced(96.0, 96.0, 'minotaur.png', 9,
+        component = AnimationComponent.sequenced(96.0, 96.0, 'Minotaur.png', 9,
             textureY: 1536, textureWidth: 96.0, textureHeight: 96.0);
       }
 
@@ -89,6 +91,9 @@ class Player2 {
       component.x = position.dx;
 
       isFight = true;
+    //   if(component.animation.onCompleteAnimation != null){
+          Enemy.tekst= (Enemy.tekst)+"10";
+     //  }
     } else {
       isFight = false;
       wasFighting = true;
@@ -106,15 +111,15 @@ class Player2 {
     bgPaint.color = Color(0xff576574).withOpacity(0.0);
 
     //TEXT
-    // TextSpan span = new TextSpan(
-    //     style: new TextStyle(color: Colors.blue[800]), text: tekst);
-    // TextPainter tp = new TextPainter(
-    //     text: span,
-    //     textAlign: TextAlign.left,
-    //     textDirection: TextDirection.ltr);
+    TextSpan span = new TextSpan(
+        style: new TextStyle(color: Colors.blue[800]), text: tekst);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr);
 
-    // tp.layout();
-    // tp.paint(c, new Offset(5.0, 5.0));
+    tp.layout();
+    tp.paint(c, new Offset(5.0, 5.0));
     // //
     c.drawRect(hitBox, bgPaint);
     c.restore();
@@ -409,7 +414,7 @@ blockColiser = false;
       if (cameraFrameLast == cameraFrame && !wasFighting) {
       } else {
         component = AnimationComponent.sequenced(
-            96.0, 96.0, 'minotaur.png', amount,
+            96.0, 96.0, 'Minotaur.png', amount,
             textureY: cameraFrame, textureWidth: 96.0, textureHeight: 96.0);
 
         component.x = position.dx;

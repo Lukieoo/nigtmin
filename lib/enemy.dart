@@ -9,27 +9,33 @@ class Enemy {
   double posx;
   double posy;
 
-  AnimationComponent componentx;
+  String namefile;
+ static AnimationComponent componentx;
+  AnimationComponent componentxCopy;
   double width = 0;
   double height = 0;
-  String tekst;
+  static String tekst="100";
   Rect hitBox;
   Offset offset;
   double bodyAngle = 0;
-  Enemy(this.posx, this.posy) {
-   // hitBox = Rect.fromLTWH(posx + 17, posy + (64 * (2 / 3)), 30, 64 / 3);
+  double cameraFrame = 960;
+  double cameraFrameLast = 960;
+
+  Enemy(this.posx, this.posy, this.namefile) {
+    // hitBox = Rect.fromLTWH(posx + 17, posy + (64 * (2 / 3)), 30, 64 / 3);
     componentx = AnimationComponent.sequenced(
-      16.0,
-      24.0,
-      'Bat_Sprite_Sheet.png',
+      64.0,
+      64.0,
+      namefile,
       5,
-      textureY: 0,
-      textureWidth:   16.0,
-      textureHeight: 24.0,
+      textureY: cameraFrame,
+      textureWidth: 64.0,
+      textureHeight: 64.0,
     );
 
     componentx.y = posy;
     componentx.x = posx;
+
     offset = Offset(posx, posy);
     bodyAngle = offset.direction;
     // tekst = "lt(${hitBox.left.toInt()},${hitBox.top.toInt()}) , rt(${(hitBox.left + hitBox.width).toInt()},${hitBox.top.toInt()} ) ,\n" +
@@ -42,16 +48,16 @@ class Enemy {
     // c.drawRect(hitBox, bgPaint);
     componentx.render(c);
     //TEXT
-    // TextSpan span =
-    //     new TextSpan(style: new TextStyle(color: Colors.black), text: tekst);
-    // TextPainter tp = new TextPainter(
-    //     text: span,
-    //     textWidthBasis: TextWidthBasis.longestLine,
-    //     textAlign: TextAlign.left,
-    //     textDirection: TextDirection.ltr);
+    TextSpan span =
+        new TextSpan(style: new TextStyle(color: Colors.black), text: tekst);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textWidthBasis: TextWidthBasis.longestLine,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr);
 
-    // tp.layout();
-    // tp.paint(c, new Offset(0.0, -20.0));
+    tp.layout();
+    tp.paint(c, new Offset(0.0, -20.0));
     //
     c.restore();
     c.save();
@@ -59,7 +65,7 @@ class Enemy {
 
   void update(double t) {
     componentx.animation.update(t);
-  //  double targetBodyAngle = position.Player2.position.direction * 4;
+    //  double targetBodyAngle = position.Player2.position.direction * 4;
     // final double rotationRate = pi * t;
 
     // if (targetBodyAngle != null) {
@@ -90,6 +96,7 @@ class Enemy {
     //     }
     //   }
     // }
+
     if (position.Player2.position.dy < componentx.y - 10 &&
         position.Player2.position.dy < componentx.y + 10) {
       //componentx.x --;
@@ -109,19 +116,39 @@ class Enemy {
         position.Player2.position.dx < componentx.x + 10) {
       //componentx.x --;
       if ((componentx.x - 10 - position.Player2.position.dx).abs() < 20.0) {
+            cameraFrame =832 ;
       } else {
         componentx.x -= 0.5;
+        cameraFrame = 576;
       }
     } else {
       // componentx.x++;
       if ((componentx.x - 10 - position.Player2.position.dx).abs() < 20.0) {
+        cameraFrame = 960;
       } else {
+        // componentx = AnimationComponent.sequenced(
+        //   64.0, 64.0, namefile, 9,
+        //   textureY: 576, textureWidth: 64.0, textureHeight: 64.0);
         componentx.x += 0.5;
+        cameraFrame = 704;
       }
+
+     
+    }
+
+    if (cameraFrame == cameraFrameLast) {
+    } else {
+      componentxCopy = componentx;
+
+      componentx = AnimationComponent.sequenced(64.0, 64.0, namefile, 6,
+          textureY: cameraFrame, textureWidth: 64.0, textureHeight: 64.0);
+      componentx.x = componentxCopy.x;
+      componentx.y = componentxCopy.y;
+      cameraFrameLast = cameraFrame;
     }
     // offset = offset + Offset.fromDirection(bodyAngle, 150 * t);
 
     // componentx.x-=t*50;
-    print("t ${componentx.y}");
+    // print("t ${componentx.y}");
   }
 }
